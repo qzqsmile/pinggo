@@ -10,7 +10,7 @@ int main (char argc, char **argv)
                           // , Re_Char_new ('b'));
   // Re_t e = Re_Alt_new(Re_Char_new('a')
   //                         , Re_Char_new('b'));
-  Re_t e = Re_Closure_new(Re_Char_new('a'));
+  Re_t* e = Re_Closure_new(Re_Char_new('a'));
 
   // and to print e1 out to make sure the
   // data structure is right: (note that
@@ -19,7 +19,7 @@ int main (char argc, char **argv)
   Re_print (e);
 
   // convert regular expressions to NFA:
-  Nfa_t nfa = Re_thompson (e);
+  Nfa_t* nfa = Re_thompson (e);
   // print the NFA out:
   printf ("\nthe NFA is:\n");
   Nfa_print (nfa);
