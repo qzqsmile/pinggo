@@ -142,6 +142,8 @@ static Nfa_t* Re_thompsonDoit (Nfa_t* nfa,Re_t* e)
     Nfa_addEdge(nfa, from, oldStart2, EPS);
     Nfa_addEdge(nfa, oldAccept1, to, EPS);
     Nfa_addEdge(nfa, oldAccept2, to, EPS);
+    nfa->start = from;
+    nfa->accept = to;
     break;
   }
   case RE_KIND_CONCAT:{
@@ -162,10 +164,13 @@ static Nfa_t* Re_thompsonDoit (Nfa_t* nfa,Re_t* e)
     int oldStart = nfa->start;
     int oldAccept = nfa->accept;
     int to = nextNum();
+    printf("oldStart is %d", oldStart);
     Nfa_addEdge(nfa, from, oldStart, EPS);
     Nfa_addEdge(nfa, from, to, EPS);
     Nfa_addEdge(nfa, oldAccept, oldStart, EPS);
     Nfa_addEdge(nfa, oldAccept, to, EPS);
+    nfa->start = from;
+    nfa->accept = to;
     break;
   }
   default:

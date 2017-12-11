@@ -1,5 +1,10 @@
 #include <stdio.h>
+#include <iostream>
 #include "re.h"
+#include "setcons.h"
+#include "test.h"
+
+using std::cout;
 
 int main (char argc, char **argv)
 {
@@ -29,6 +34,8 @@ int main (char argc, char **argv)
   e = Re_Concat_new (Re_Char_new ('a')
                      , Re_Closure_new (Re_Alt_new(Re_Char_new ('b')
                                                   , Re_Char_new ('c'))));
+
+  // e = Re_Closure_new(Re_Alt_new(Re_Char_new('b'), Re_Char_new('c')));
   // print it
   printf ("\nthe second regular expression is:\n");
   Re_print (e);
@@ -37,6 +44,14 @@ int main (char argc, char **argv)
   // print the NFA:
   printf ("\nthe second NFA is:\n");
   Nfa_print (nfa);
-  
-  return 0;
+  // TestClosure(nfa, nfa->nodes);
+  return 0; 
+}
+
+void TestClosure(Nfa_t* nfa, Node_t *e)
+{
+  set<Node_t*> nodes= Eps_Closure(nfa, e);
+  for(set<Node_t*>::iterator iter = nodes.begin(); iter != nodes.end(); iter++){
+    cout << ' '<< *iter;
+  }
 }

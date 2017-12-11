@@ -4,27 +4,10 @@
 #include "new.h"
 
 // typedef struct Edge_t *Edge_t;
-struct Edge_t;
-
-struct Node_t
-{
-  int num;
-  int visited;
-  Edge_t* edges;
-  Node_t* next;
-};
-
-struct Edge_t
-{
-  int c;
-  Node_t* from;
-  Node_t* to;
-  Edge_t* next;
-};
-
-
-
+// struct Edge_t;
+// struct Node_t;
 // list head insert
+
 static Node_t* Node_new (int num, Node_t* n)
 {
   Node_t* p;
