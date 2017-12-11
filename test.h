@@ -3,6 +3,6 @@
 
 #include"nfa.h"
 
-void TestClosure(Nfa_t* nfa, Node_t *e);
+void TestClosure(Nfa_t* nfa, int num);
 
 #endif

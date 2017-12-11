@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "re.h"
+#include "nfa.h"
 #include "setcons.h"
 #include "test.h"
 
@@ -44,14 +45,15 @@ int main (char argc, char **argv)
   // print the NFA:
   printf ("\nthe second NFA is:\n");
   Nfa_print (nfa);
-  // TestClosure(nfa, nfa->nodes);
+  // TestClosure(nfa, 7);
   return 0; 
 }
 
-void TestClosure(Nfa_t* nfa, Node_t *e)
+void TestClosure(Nfa_t* nfa, int num)
 {
+  Node_t* e = Nfa_lookupOrInsert(nfa, num);
   set<Node_t*> nodes= Eps_Closure(nfa, e);
   for(set<Node_t*>::iterator iter = nodes.begin(); iter != nodes.end(); iter++){
-    cout << ' '<< *iter;
+    cout << ' '<< (*iter)->num;
   }
 }

@@ -33,5 +33,6 @@ struct Edge_t
 Nfa_t* Nfa_new ();
 void Nfa_addEdge(Nfa_t* nfa, int from, int to, int c);
 void Nfa_print (Nfa_t* nfa);
+Node_t* Nfa_lookupOrInsert (Nfa_t* nfa, int num);
 
 #endif
