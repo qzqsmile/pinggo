@@ -3,6 +3,13 @@
 
 #include "nfa.h"
 
+struct Re_t;
+struct Re_Eps_t;
+struct Re_Char_t;
+struct Re_Concat_t;
+struct Re_Alt_t;
+struct Re_Closure_t;
+
 /////////////////////////////////
 // data structures
 typedef enum Re_Kind_t {
@@ -20,57 +27,57 @@ typedef enum Re_Kind_t {
       | e | e
       | e*
 */
-typedef struct Re_t *Re_t;
+// typedef struct Re_t *Re_t;
 struct Re_t
 {
   Re_Kind_t kind;
 };
 
-typedef struct Re_Eps_t *Re_Eps_t;
+// typedef struct Re_Eps_t *Re_Eps_t;
 struct Re_Eps_t
 {
   Re_Kind_t kind;
 };
 
-typedef struct Re_Char_t *Re_Char_t;
+// typedef struct Re_Char_t *Re_Char_t;
 struct Re_Char_t 
 {
   Re_Kind_t kind;
   int c;
 };
 
-typedef struct Re_Concat_t *Re_Concat_t;
+// typedef struct Re_Concat_t *Re_Concat_t;
 struct Re_Concat_t
 {
   Re_Kind_t kind;
-  Re_t left;
-  Re_t right;
+  Re_t* left;
+  Re_t* right;
 };
 
-typedef struct Re_Alt_t *Re_Alt_t;
+// typedef struct Re_Alt_t *Re_Alt_t;
 struct Re_Alt_t
 {
   Re_Kind_t kind;
-  Re_t left;
-  Re_t right;
+  Re_t* left;
+  Re_t* right;
 };
 
-typedef struct Re_Closure_t *Re_Closure_t;
+// typedef struct Re_Closure_t *Re_Closure_t;
 struct Re_Closure_t
 {
   Re_Kind_t kind;
-  Re_t exp;
+  Re_t* exp;
 };
 
 //////////////////////////////////
 // operations
-Re_t Re_Eps_new ();
-Re_t Re_Char_new (int c);
-Re_t Re_Concat_new (Re_t left, Re_t right);
-Re_t Re_Alt_new (Re_t left, Re_t right);
-Re_t Re_Closure_new (Re_t exp);
+Re_t* Re_Eps_new ();
+Re_t* Re_Char_new (int c);
+Re_t* Re_Concat_new (Re_t* left, Re_t* right);
+Re_t* Re_Alt_new (Re_t* left, Re_t* right);
+Re_t* Re_Closure_new (Re_t* exp);
 
-void Re_print (Re_t e);
-Nfa_t Re_thompson (Re_t e);
+void Re_print (Re_t* e);
+Nfa_t* Re_thompson (Re_t* e);
 
 #endif
