@@ -45,15 +45,7 @@ int main (char argc, char **argv)
   // print the NFA:
   printf ("\nthe second NFA is:\n");
   Nfa_print (nfa);
+  Nfa_t* sets = Set_Cons(nfa); 
   // TestClosure(nfa, 7);
   return 0; 
-}
-
-void TestClosure(Nfa_t* nfa, int num)
-{
-  Node_t* e = Nfa_lookupOrInsert(nfa, num);
-  set<Node_t*> nodes= Eps_Closure(nfa, e);
-  for(set<Node_t*>::iterator iter = nodes.begin(); iter != nodes.end(); iter++){
-    cout << ' '<< (*iter)->num;
-  }
 }

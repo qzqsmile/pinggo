@@ -1,5 +1,5 @@
-main: main.o re.o nfa.o setcons.o
-	g++ -g main.o re.o nfa.o setcons.o -o main
+main: main.o re.o nfa.o setcons.o test.o
+	g++ -g main.o re.o nfa.o setcons.o test.o -o main
 	make clean
 
 main.o: main.cpp re.h
@@ -13,6 +13,9 @@ nfa.o: nfa.cpp nfa.h new.h
 
 setcons.o: setcons.cpp setcons.h
 	g++ -c -g setcons.cpp
+
+test.o: test.cpp test.h
+	g++ -c -g test.cpp
 
 clean:
 	@echo "cleaning project"

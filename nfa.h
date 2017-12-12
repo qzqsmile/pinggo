@@ -1,6 +1,11 @@
 #ifndef NFA_H
 #define NFA_H
 
+#include<vector>
+#include<set>
+
+using namespace::std;
+
 // typedef struct Node_t *Node_t;
 // typedef struct Nfa_t *Nfa_t;
 struct Node_t;
@@ -12,12 +17,14 @@ struct Nfa_t
   int start;     // start node of an NFA
   int accept;    // accept node of an NFA
   Node_t* nodes;  // a list of all nodes
+  vector<int> accepts;
 };
 
 struct Node_t
 {
   int num;
   int visited;
+  set<int> set_nodes;
   Edge_t* edges;
   Node_t* next;
 };
