@@ -2,10 +2,12 @@
 #include<assert.h>
 #include<queue>
 #include<set>
+#include<iostream>
 #include"nfa.h"
 #include"setcons.h"
 
 using std::set;
+using std::endl;
 using std::queue;
 
 set<int> Eps_Closure(Nfa_t* nfa, Node_t *e)
@@ -63,14 +65,15 @@ Nfa_t* Set_Cons(Nfa_t* nfa)
             while(edges){
                 if(edges->c != -2){
                     set<int>next_set = Eps_Closure(nfa, edges->to);
+                    Node_t *linked_node = Set_lookupOrInsert(set_nfa, next_set, set_code_count);
+                    if (linked_node->num == set_code_count)
+                        set_code_count++;
+                    Nfa_addEdge(set_nfa, iter_node->num, linked_node->num, edges->c);
                     if(all_set_nodes.find(next_set) == all_set_nodes.end()){
-                        Node_t *next_node = Nfa_lookupOrInsert(set_nfa, set_code_count++);
-                        next_node->set_nodes = next_set;
-                        Nfa_addEdge(set_nfa, iter_node->num, next_node->num, edges->c);
-                        if((next_node->set_nodes).find(accept)!=(next_node->set_nodes).end())
-                            set_nfa->accepts.push_back(next_node->num);
+                        if((linked_node->set_nodes).find(accept)!=(linked_node->set_nodes).end())
+                            set_nfa->accepts.push_back(linked_node->num);
                         all_set_nodes.insert(next_set);
-                        q_que.push(next_node);
+                        q_que.push(linked_node);
                     }                    
                 }
                 edges = edges->next;

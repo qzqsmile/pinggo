@@ -46,6 +46,7 @@ int main (char argc, char **argv)
   printf ("\nthe second NFA is:\n");
   Nfa_print (nfa);
   Nfa_t* sets = Set_Cons(nfa); 
+  Set_Nfa_print(sets);
   // TestClosure(nfa, 7);
   return 0; 
 }
