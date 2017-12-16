@@ -8,7 +8,7 @@
 // struct Node_t;
 // list head insert
 
-static Node_t* Node_new (int num, Node_t* n)
+Node_t* Node_new (int num, Node_t* n)
 {
   Node_t* p;
   p = new Node_t;
@@ -19,7 +19,7 @@ static Node_t* Node_new (int num, Node_t* n)
   return p;
 }
 
-static Edge_t* Edge_new (Node_t* from
+Edge_t* Edge_new (Node_t* from
                         , Node_t* to
                         , int c
                         , Edge_t* edge)
@@ -47,20 +47,6 @@ Nfa_t* Nfa_new ()
 // it; if that
 // node does not exist, create a fresh one
 // and return it.
-Node_t* Set_lookupOrInsert(Nfa_t* nfa, set<int> search_nodes, int num)
-{
-  assert(nfa);
-  Node_t* nodes = nfa-> nodes;
-  while(nodes){
-    if(nodes->set_nodes == search_nodes)
-      return nodes;
-    nodes = nodes->next;
-  }
-  Node_t* p = Node_new(num, nfa->nodes);
-  p->set_nodes = search_nodes;
-  nfa->nodes = p;
-  return p;
-}
 
 Node_t* Nfa_lookupOrInsert (Nfa_t* nfa, int num)
 {

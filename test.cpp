@@ -15,7 +15,7 @@ void TestClosure(Nfa_t* nfa, int num)
   }
 }
 
-void Set_Nfa_print(Nfa_t* nfa)
+void Set_Dfa_print(Dfa_t* nfa)
 {
   assert (nfa);
   Node_t* nodes = nfa->nodes;

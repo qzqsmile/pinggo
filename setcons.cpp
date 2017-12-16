@@ -4,6 +4,7 @@
 #include<set>
 #include<iostream>
 #include"nfa.h"
+#include"dfa.h"
 #include"setcons.h"
 
 using std::set;
@@ -39,15 +40,15 @@ set<int> Eps_Closure(Nfa_t* nfa, Node_t *e)
     return closure;
 }
 
-Nfa_t* Set_Cons(Nfa_t* nfa)
+Dfa_t* Set_Cons(Nfa_t* nfa)
 {
     int set_code_count = 0;
     int accept = nfa->accept;
-    Nfa_t* set_nfa = Nfa_new();
+    Dfa_t* set_dfa = Dfa_new();
     Node_t* node0 = Nfa_lookupOrInsert(nfa, 0);
-    Node_t* q0 = Nfa_lookupOrInsert(set_nfa, set_code_count++);
+    Node_t* q0 = SetDfa_lookupOrInsert(set_dfa, set_code_count++);
 
-    set_nfa->start = set_nfa->accept = q0->num;
+    set_dfa->start = q0->num;
     q0->set_nodes = Eps_Closure(nfa, node0);
     queue<Node_t *> q_que;
     set<set<int> > all_set_nodes;
@@ -65,13 +66,13 @@ Nfa_t* Set_Cons(Nfa_t* nfa)
             while(edges){
                 if(edges->c != -2){
                     set<int>next_set = Eps_Closure(nfa, edges->to);
-                    Node_t *linked_node = Set_lookupOrInsert(set_nfa, next_set, set_code_count);
+                    Node_t *linked_node = SetDfa_lookupOrInsert(set_dfa, set_code_count,next_set);
                     if (linked_node->num == set_code_count)
                         set_code_count++;
-                    Nfa_addEdge(set_nfa, iter_node->num, linked_node->num, edges->c);
+                    Dfa_addEdge(set_dfa, iter_node->num, linked_node->num, edges->c);
                     if(all_set_nodes.find(next_set) == all_set_nodes.end()){
                         if((linked_node->set_nodes).find(accept)!=(linked_node->set_nodes).end())
-                            set_nfa->accepts.push_back(linked_node->num);
+                            set_dfa->accepts.push_back(linked_node->num);
                         all_set_nodes.insert(next_set);
                         q_que.push(linked_node);
                     }                    
@@ -80,7 +81,7 @@ Nfa_t* Set_Cons(Nfa_t* nfa)
             }
         }   
     }
-    return set_nfa;
+    return set_dfa;
 }
 
 

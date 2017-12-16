@@ -17,7 +17,6 @@ struct Nfa_t
   int start;     // start node of an NFA
   int accept;    // accept node of an NFA
   Node_t* nodes;  // a list of all nodes
-  vector<int> accepts;
 };
 
 struct Node_t
@@ -42,5 +41,7 @@ void Nfa_addEdge(Nfa_t* nfa, int from, int to, int c);
 void Nfa_print (Nfa_t* nfa);
 Node_t* Nfa_lookupOrInsert (Nfa_t* nfa, int num);
 Node_t* Set_lookupOrInsert(Nfa_t* nfa, set<int> search_nodes, int num);
+Node_t* Node_new (int num, Node_t* n);
+Edge_t* Edge_new (Node_t* from, Node_t* to, int c, Edge_t* edge);
 
 #endif

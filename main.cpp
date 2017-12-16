@@ -2,6 +2,7 @@
 #include <iostream>
 #include "re.h"
 #include "nfa.h"
+#include "dfa.h"
 #include "setcons.h"
 #include "test.h"
 
@@ -45,8 +46,8 @@ int main (char argc, char **argv)
   // print the NFA:
   printf ("\nthe second NFA is:\n");
   Nfa_print (nfa);
-  Nfa_t* sets = Set_Cons(nfa); 
-  Set_Nfa_print(sets);
+  Dfa_t* sets = Set_Cons(nfa); 
+  Set_Dfa_print(sets);
   // TestClosure(nfa, 7);
   return 0; 
 }
