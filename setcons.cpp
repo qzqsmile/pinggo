@@ -72,7 +72,7 @@ Dfa_t* Set_Cons(Nfa_t* nfa)
                     Dfa_addEdge(set_dfa, iter_node->num, linked_node->num, edges->c);
                     if(all_set_nodes.find(next_set) == all_set_nodes.end()){
                         if((linked_node->set_nodes).find(accept)!=(linked_node->set_nodes).end())
-                            set_dfa->accepts.push_back(linked_node->num);
+                            set_dfa->accepts.insert(linked_node->num);
                         all_set_nodes.insert(next_set);
                         q_que.push(linked_node);
                     }                    

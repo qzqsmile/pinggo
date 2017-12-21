@@ -7,7 +7,7 @@ struct Dfa_t
 {
   int start;     // start node of an NFA
   Node_t* nodes;  // a list of all nodes
-  vector<int> accepts;
+  set<int> accepts;
 };
 
 Dfa_t* Dfa_new ();
