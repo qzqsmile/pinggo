@@ -18,21 +18,18 @@ void TestClosure(Nfa_t* nfa, int num)
 void Set_Dfa_print(Dfa_t* nfa)
 {
   assert (nfa);
-  Node_t* nodes = nfa->nodes;
-  assert (nodes);
   printf("set nfa is: \n");
-  while (nodes){
-    Edge_t* edges = nodes->edges;
-    while (edges){
-      printf ("%d ----(%d)----> %d\n"
-              , edges->from->num
-              , edges->c
-              , edges->to->num);
-      edges = edges->next;
+  for(vector<Dft_node*>::iterator iter = nfa->dfa_nodes.begin(); iter != nfa->dfa_nodes.end(); iter++){
+    for(map<int, int>::iterator edge_iter = (*iter)->dfa_mapping.begin(); edge_iter!= (*iter)->dfa_mapping.end(); edge_iter++){
+      cout << (*iter)->num << "----" << edge_iter->first << "-----" << edge_iter->second << endl;
     }
-    nodes = nodes->next;
-    // printf("Node %d contians",nodes->num);
-    // for (set<int>::iterator iter = nodes->set_nodes.begin(); iter != nodes->set_nodes.end(); iter++){
-    //     printf("%d ", *iter);
+  }
+
+  for(vector<Dft_node*>::iterator iter = nfa->dfa_nodes.begin(); iter != nfa->dfa_nodes.end(); iter++){
+    cout << "DFA node num is: " << (*iter)->num << endl;
+    for(set<int>::iterator set_iter = (*iter)->nfa_nums.begin(); set_iter != (*iter)->nfa_nums.end(); set_iter++){
+      cout << " "<<*set_iter;
     }
+    cout << endl;
+  }
 }

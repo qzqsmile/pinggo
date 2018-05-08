@@ -1,6 +1,7 @@
 // powerset construction alogrithm
 #include<assert.h>
 #include<queue>
+#include<map>
 #include<set>
 #include<iostream>
 #include"nfa.h"
@@ -40,46 +41,58 @@ set<int> Eps_Closure(Nfa_t* nfa, Node_t *e)
     return closure;
 }
 
+void Dft_Node_Edge_To_Mapping(Dft_node *dft_node, map<int, Node_t*>& nft_node)
+{
+    for(set<int>::iterator iter = dft_node->nfa_nums.begin(); iter != dft_node->nfa_nums.end(); iter++){
+        Edge_t * edges = nft_node[*iter]->edges;
+        while(edges){
+            if(edges->c != EPS)
+                dft_node->nfa_mapping[edges->c] = edges->to->num;
+            edges = edges->next;
+        }
+    }
+}
+
+
 Dfa_t* Set_Cons(Nfa_t* nfa)
 {
     int set_code_count = 0;
-    int accept = nfa->accept;
-    Dfa_t* set_dfa = Dfa_new();
-    Node_t* node0 = Nfa_lookupOrInsert(nfa, 0);
-    Node_t* q0 = SetDfa_lookupOrInsert(set_dfa, set_code_count++);
+    int accept = nfa->accept;    
+    map<int, int> nft_mapping;
+    Dfa_t* set_dfa = new Dfa_t();
+    Dft_node* q0 = new Dft_node();
+    queue<Dft_node*> worklist;
+    int dft_node_count = 0;
 
-    set_dfa->start = q0->num;
-    q0->set_nodes = Eps_Closure(nfa, node0);
-    queue<Node_t *> q_que;
-    set<set<int> > all_set_nodes;
-    all_set_nodes.insert(q0->set_nodes);
-    //todo
+    Node_t * nodes = nfa->nodes;    
+    map<int, Node_t *> nft_node_map;
+    while(nodes){
+        nft_node_map[nodes->num] = nodes;
+        nodes = nodes->next;
+    }
+    q0->nfa_nums = Eps_Closure(nfa, nft_node_map[0]);
+    q0->num = dft_node_count++;    
+    Dft_Node_Edge_To_Mapping(q0, nft_node_map);
+    set_dfa->dfa_nodes.push_back(q0);
+    worklist.push(q0);
 
-    q_que.push(q0);
-    
-    while(!q_que.empty()){
-        Node_t* iter_node = q_que.front();
-        q_que.pop();
-        for(set<int>::iterator iter = iter_node->set_nodes.begin(); iter != (iter_node->set_nodes).end(); iter++){
-            Node_t* closure_node = Nfa_lookupOrInsert(nfa, *iter);
-            Edge_t* edges = closure_node->edges;
-            while(edges){
-                if(edges->c != -2){
-                    set<int>next_set = Eps_Closure(nfa, edges->to);
-                    Node_t *linked_node = SetDfa_lookupOrInsert(set_dfa, set_code_count,next_set);
-                    if (linked_node->num == set_code_count)
-                        set_code_count++;
-                    Dfa_addEdge(set_dfa, iter_node->num, linked_node->num, edges->c);
-                    if(all_set_nodes.find(next_set) == all_set_nodes.end()){
-                        if((linked_node->set_nodes).find(accept)!=(linked_node->set_nodes).end())
-                            set_dfa->accepts.insert(linked_node->num);
-                        all_set_nodes.insert(next_set);
-                        q_que.push(linked_node);
-                    }                    
-                }
-                edges = edges->next;
+    while(!worklist.empty()){
+        Dft_node* node = worklist.front();
+        worklist.pop();
+        for(map<int,int>::iterator iter = node->nfa_mapping.begin(); iter != node->nfa_mapping.end(); iter++){
+            set<int> eps_closure = Eps_Closure(nfa, nft_node_map[iter->second]);
+            Dft_node *find_result = set_dfa->find(eps_closure);
+            if(find_result){
+                node->dfa_mapping[iter->first] = find_result->num;
+            }else{
+                Dft_node * new_node = new Dft_node();
+                new_node->num = dft_node_count++;
+                new_node->nfa_nums = eps_closure;
+                Dft_Node_Edge_To_Mapping(new_node, nft_node_map);
+                set_dfa->dfa_nodes.push_back(new_node);
+                worklist.push(new_node);
             }
-        }   
+        }
     }
     return set_dfa;
 }

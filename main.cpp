@@ -8,7 +8,7 @@
 
 using std::cout;
 
-int main (char argc, char **argv)
+int main(int argc, char **argv)
 {
   // First, we make a data structure for this
   // regular expression:
@@ -29,7 +29,7 @@ int main (char argc, char **argv)
   Nfa_t* nfa = Re_thompson (e);
   // print the NFA out:
   printf ("\nthe NFA is:\n");
-  Nfa_print (nfa);
+  Nfa_print(nfa);
   
   // a second regular expression:
   //    a (b|c)*

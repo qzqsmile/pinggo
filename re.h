@@ -3,6 +3,8 @@
 
 #include "nfa.h"
 
+#define EPS (-2)
+
 struct Re_t;
 struct Re_Eps_t;
 struct Re_Char_t;

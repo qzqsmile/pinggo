@@ -5,7 +5,6 @@
 #include "re.h"
 #include "todo.h"
 
-#define EPS (-2)
 
 Re_t* Re_Eps_new ()
 {
