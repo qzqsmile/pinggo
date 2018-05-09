@@ -89,6 +89,7 @@ Dfa_t* Set_Cons(Nfa_t* nfa)
                 new_node->num = dft_node_count++;
                 new_node->nfa_nums = eps_closure;
                 Dft_Node_Edge_To_Mapping(new_node, nft_node_map);
+                node->dfa_mapping[iter->first] = new_node->num;
                 set_dfa->dfa_nodes.push_back(new_node);
                 worklist.push(new_node);
             }
