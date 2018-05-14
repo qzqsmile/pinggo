@@ -41,7 +41,7 @@ set<int> Eps_Closure(Nfa_t* nfa, Node_t *e)
     return closure;
 }
 
-void Dft_Node_Edge_To_Mapping(Dft_node *dft_node, map<int, Node_t*>& nft_node)
+void Dft_Node_Edge_To_Mapping(Dfa_node *dft_node, map<int, Node_t*>& nft_node)
 {
     for(set<int>::iterator iter = dft_node->nfa_nums.begin(); iter != dft_node->nfa_nums.end(); iter++){
         Edge_t * edges = nft_node[*iter]->edges;
@@ -60,8 +60,8 @@ Dfa_t* Set_Cons(Nfa_t* nfa)
     int accept = nfa->accept;    
     map<int, int> nft_mapping;
     Dfa_t* set_dfa = new Dfa_t();
-    Dft_node* q0 = new Dft_node();
-    queue<Dft_node*> worklist;
+    Dfa_node* q0 = new Dfa_node();
+    queue<Dfa_node*> worklist;
     int dft_node_count = 0;
 
     Node_t * nodes = nfa->nodes;    
@@ -74,23 +74,29 @@ Dfa_t* Set_Cons(Nfa_t* nfa)
     q0->num = dft_node_count++;    
     Dft_Node_Edge_To_Mapping(q0, nft_node_map);
     set_dfa->dfa_nodes.push_back(q0);
+    if((q0->nfa_nums).find(accept) != (q0->nfa_nums).end()){
+        set_dfa->accepts.insert(q0->num);
+    }
     worklist.push(q0);
 
     while(!worklist.empty()){
-        Dft_node* node = worklist.front();
+        Dfa_node* node = worklist.front();
         worklist.pop();
         for(map<int,int>::iterator iter = node->nfa_mapping.begin(); iter != node->nfa_mapping.end(); iter++){
             set<int> eps_closure = Eps_Closure(nfa, nft_node_map[iter->second]);
-            Dft_node *find_result = set_dfa->find(eps_closure);
+            Dfa_node *find_result = set_dfa->find(eps_closure);
             if(find_result){
                 node->dfa_mapping[iter->first] = find_result->num;
             }else{
-                Dft_node * new_node = new Dft_node();
+                Dfa_node * new_node = new Dfa_node();
                 new_node->num = dft_node_count++;
                 new_node->nfa_nums = eps_closure;
                 Dft_Node_Edge_To_Mapping(new_node, nft_node_map);
                 node->dfa_mapping[iter->first] = new_node->num;
                 set_dfa->dfa_nodes.push_back(new_node);
+                if((new_node->nfa_nums).find(accept) != (new_node->nfa_nums).end()){
+                    set_dfa->accepts.insert(new_node->num);
+                }
                 worklist.push(new_node);
             }
         }

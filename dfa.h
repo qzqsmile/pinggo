@@ -7,7 +7,7 @@
 
 using namespace std;
 
-struct Dft_node{
+struct Dfa_node{
   int num;
   set<int> nfa_nums;
   map<int, int> dfa_mapping;
@@ -18,9 +18,9 @@ struct Dfa_t
 {
   public:
     int start;     // start node of an NFA
-    vector<Dft_node* > dfa_nodes; // a list of all nodes
+    vector<Dfa_node* > dfa_nodes; // a list of all nodes
     set<int> accepts;
-    Dft_node* find(set<int> nfa_node);
+    Dfa_node* find(set<int> nfa_node);
 };
 
 Dfa_t *Dfa_new();

@@ -4,6 +4,7 @@
 #include "nfa.h"
 #include "dfa.h"
 #include "setcons.h"
+#include "hopcroft.h"
 #include "test.h"
 
 using std::cout;
@@ -48,6 +49,9 @@ int main(int argc, char **argv)
   Nfa_print (nfa);
   Dfa_t* sets = Set_Cons(nfa); 
   Set_Dfa_print(sets);
+  
+  Hopcrof_set *hopcrof_set = Build_Hopcrof_set(sets);
+  HopCrof_Set_print(hopcrof_set);
   // TestClosure(nfa, 7);
   return 0; 
 }
