@@ -26,8 +26,8 @@
 // terminals
 %token <intval> INTNUM
 %token <strval> ID
-%token AND BOOL FALSE INT OR 
-PRINTB PRINTI TRUE
+%token AND BOOL FALSE INT OR TRUE LONG IF RETURN FOR
+%token PRINTB PRINTI 
 
 // nonterminals
 %type <progval> prog
@@ -54,10 +54,12 @@ decs: dec decs  {$$ = List_new ($1, $2);}
 ;
 
 dec: type ID ';' {$$ = Dec_new ($1, $2);}
+| type ID '[' INTNUM ']' 
 ;
 
 type: BOOL       {$$ = TYPE_BOOL;}
 | INT            {$$ = TYPE_INT;}
+| LONG           {$$ = TYPE_LONG;}
 ;
 
 stms: stm stms {$$ = List_new ($1, $2);}

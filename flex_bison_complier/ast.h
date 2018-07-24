@@ -9,7 +9,8 @@ typedef char *string;
 // type
 typedef enum Type_Kind_t{
   TYPE_INT,
-  TYPE_BOOL
+  TYPE_BOOL,
+  TYPE_LONG
 } Type_t;
 void Type_print (Type_t);
 

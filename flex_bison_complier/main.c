@@ -44,7 +44,7 @@ int main (int argc, char **argv)
 
   printf ("executable generation starting...\n");
   system ("gcc -s -m32 temp.s -o main");
-  printf ("executable generation finished (writing to file \"stack.exe\")\n");
+  printf ("executable generation finished (writing to file \"main\")\n");
 
   return 0;
 }

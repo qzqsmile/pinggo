@@ -33,6 +33,10 @@ IDS ({ALPHA}({ALPHA}|{DIGIT})*)
 "&&"   {return AND;}
 "||"   {return OR;}
 "int"  {return INT;}
+"long" {return LONG;}
+"for"  {return FOR;}
+"return" {return RETURN;} 
+"if"    {return IF;}
 "bool" {return BOOL;}
 "true" {return TRUE;}
 "false" {return FALSE;}
