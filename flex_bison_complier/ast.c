@@ -17,14 +17,35 @@ void Type_print (Type_t t)
   }
   return;
 }
-
+////////////////////////////////////////
+List_t OneLine_VAR_new(Type_t type, List_t ids)
+{
+  List_t p = ids;
+  List_t head = 0, tail = 0;
+  if(!ids)
+    return head;
+  else{
+    VAR_ID_t first_id = (VAR_ID_t) ids->data;
+    Dec_t first_dec = Dec_new(type, first_id->id, first_id->num);
+    tail = List_new(first_dec, 0);
+  }
+  p = ids->next;
+  while(p)
+  {
+    VAR_ID_t id = (VAR_ID_t) p->data;
+    Dec_t dec = Dec_new(type, id->id, id->num);
+    head = List_new(dec, tail);
+  }
+  return head;
+}
 ////////////////////////////////////////
 // dec
-Dec_t Dec_new (Type_t type, char *id)
+Dec_t Dec_new (Type_t type, char *id, int n)
 {
   Dec_t p = malloc (sizeof (*p));
   p->type = type;
   p->id = id;
+  p->n = n;
   return p;
 }
 
@@ -34,7 +55,14 @@ void Dec_print (Dec_t d)
   printf (" %s;", d->id);
   return;
 }
-
+/////////////////////////////////////////
+VAR_ID_t VAR_ID_new(char*id, int n)
+{
+  VAR_ID_t p = malloc(sizeof(*p));
+  p->id = id;
+  p->num = n;
+  return p;
+}
 /////////////////////////////////////////
 // exp
 

@@ -10,7 +10,8 @@ typedef char *string;
 typedef enum Type_Kind_t{
   TYPE_INT,
   TYPE_BOOL,
-  TYPE_LONG
+  TYPE_LONG,
+  TYPE_ARRAY
 } Type_t;
 void Type_print (Type_t);
 
@@ -21,11 +22,32 @@ struct Dec_t
 {
   Type_t type;
   char *id;
+  int n;
 };
-Dec_t Dec_new (Type_t, char *);
+Dec_t Dec_new (Type_t, char *, int);
 void Dec_print (Dec_t);
-
 ///////////////////////////////
+//ID
+typedef struct VAR_ID_t *VAR_ID_t;
+// id is variable name, num will be set -1 if it is not array
+struct VAR_ID_t
+{
+  char *id;
+  int num;
+};
+VAR_ID_t VAR_ID_new(char*, int);
+///////////////////////////////
+typedef struct FUN_ID_t *FUN_ID_t;
+struct FUN_ID_t
+{
+
+};
+///////////////////////////////
+
+//////////////////////////////
+// one line IDS
+List_t OneLine_VAR_new(Type_t, List_t);
+/////////////////////////////
 // exp
 enum Exp_Kind_t{
   EXP_INT,

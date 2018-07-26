@@ -21,22 +21,24 @@
   Stm_t stmval;
   List_t stmsval;
   Prog_t progval;
+  VAR_ID_t varval;
  }
 
 // terminals
 %token <intval> INTNUM
 %token <strval> ID
 %token AND BOOL FALSE INT OR TRUE LONG IF RETURN FOR
-%token PRINTB PRINTI 
+%token PRINTB PRINTI MAIN
 
 // nonterminals
 %type <progval> prog
-%type <decval> dec
-%type <decsval> decs
+// %type <decval> dec
+%type <decsval> decs one_line_decs
 %type <stmval> stm
-%type <stmsval> stms
+%type <stmsval> stms ids
 %type <expval> exp
 %type <typeval> type
+%type <varval> aloneid
 
 %left AND OR
 %left '+' '-'
@@ -49,13 +51,20 @@
 prog: '{' decs stms '}' {tree = Prog_new ($2, $3); return 0;}
 ;
 
-decs: dec decs  {$$ = List_new ($1, $2);}
+decs: one_line_decs decs  {$$ = Con_List($1, $2);}
 |               {$$ = 0;}
 ;
 
-dec: type ID ';' {$$ = Dec_new ($1, $2);}
-| type ID '[' INTNUM ']' 
+one_line_decs: type ids   {$$ = OneLine_VAR_new ($1, $2);}
 ;
+
+aloneid: ID       {$$ = VAR_ID_new($1, -1);}
+    | ID '[' INTNUM ']' {$$ = VAR_ID_new($1, $3);}
+;
+
+ids: aloneid      {$$ = List_new($1, 0);}
+| ids ',' aloneid {$$ = List_new($3, $1);}
+; 
 
 type: BOOL       {$$ = TYPE_BOOL;}
 | INT            {$$ = TYPE_INT;}
